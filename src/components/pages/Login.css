@@ -1,0 +1,27 @@
+#login .view {
+  background: rgb(139,198,236);
+  background: linear-gradient(90deg, rgba(139,198,236,1) 35%, rgba(149,153,226,1) 100%);
+  background-size: cover;
+  height: 100vh;
+}
+
+#login h6 {
+  line-height: 1.7;
+}
+
+#login .form-check {
+  margin-bottom: 0!important;
+}
+
+
+#login .md-form input[type=text]:focus:not([readonly])+label,
+#login .md-form input[type=password]:focus:not([readonly])+label,
+#login .md-form input[type=email]:focus:not([readonly])+label {
+  color: #8EDEF8;
+}
+#login .md-form input[type=text]:focus:not([readonly]),
+#login .md-form input[type=password]:focus:not([readonly]),
+#login .md-form input[type=email]:focus:not([readonly]) {
+  border-bottom: 1px solid #8EDEF8;
+  box-shadow: 0 1px 0 0 #8EDEF8;
+}
