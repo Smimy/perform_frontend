@@ -1,5 +1,6 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {MDBAlert} from "mdbreact";
+import {useStateIfMounted} from "use-state-if-mounted";
 
 
 const Spinners = () => (
@@ -23,22 +24,25 @@ const Spinners = () => (
 )
 
 const Alert = () => (
-    <MDBAlert color="warning" >
+    <MDBAlert color="warning">
         Un problème est survenu ! Veuillez <b>recharger</b> la page ou <b>revenir</b> plus tard.
     </MDBAlert>
 )
 
 const Loading = () => {
-    const [outOfTime, setOutOfTime] = useState(false);
-    setTimeout(function () {
-        setOutOfTime(true)
-    }, 30000);
+    const [outOfTime, setOutOfTime] = useStateIfMounted(false);
+
+    useEffect(() => {
+        setTimeout(function () {
+            setOutOfTime(true)
+        }, 20000);
+    });
 
     return (
         <div className="d-flex flex-row justify-content-center align-items-center w-100">
             <section className='my-4 '>
                 {
-                    !outOfTime ? <Spinners /> : <Alert/>
+                    !outOfTime ? <Spinners/> : <Alert/>
                 }
             </section>
         </div>
