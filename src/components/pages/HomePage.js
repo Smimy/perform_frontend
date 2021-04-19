@@ -3,7 +3,7 @@ import Loading from "../components/Loading";
 import {MDBCard} from "mdbreact";
 import TableWorkouts from "./TableWorkouts";
 
-class Dashboard extends React.Component {
+class HomePage extends React.Component {
 
     constructor(props) {
         super(props);
@@ -20,17 +20,15 @@ class Dashboard extends React.Component {
 
     render() {
         if (!this.state.loaded) return <Loading/>
-        else {
-            return (
-                <div style={{display: "flex", flexDirection: "column"}}>
+        return (
+            <div style={{display: "flex", flexDirection: "column"}}>
 
-                    <MDBCard>
-                        <TableWorkouts/>
-                    </MDBCard>
-                </div>
-            )
-        }
+                <MDBCard>
+                    <TableWorkouts/>
+                </MDBCard>
+            </div>
+        )
     }
 }
 
-export default Dashboard;
+export default HomePage;

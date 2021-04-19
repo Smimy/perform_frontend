@@ -169,14 +169,16 @@ class WorkoutDetails extends React.Component {
     }
 
     submit = (values) => {
-        console.log(values);
-        console.log("ExercisesId to remove : ", this.state.exercisesIdToRemove)
         if (values.id === null) {
             AxiosCenter.createWorkout(values).then(() => {
                 this.props.history.push("/");
             });
-        } else
-            this.props.history.push("/");
+        } else {
+            AxiosCenter.updateWorkout(values).then(() => {
+                this.props.history.push("/");
+            })
+        }
+
     }
 
     render() {
@@ -267,7 +269,7 @@ class WorkoutDetails extends React.Component {
                                                     </td>
 
                                                     <td>
-                                                        <MDBBtn rounded size="sm" color="red" disabled={true}
+                                                        <MDBBtn rounded size="sm" color="red"
                                                                 onClick={() => this.deleteExercise(exercise.id, index)}>SUPPRIMER</MDBBtn>
                                                     </td>
                                                 </tr>

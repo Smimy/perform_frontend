@@ -133,7 +133,7 @@ class TopNavigation extends Component {
                             <MDBDropdownMenu right style={{minWidth: '200px'}}>
                                 <MDBDropdownItem href="/login" onClick={() => TokenService.disconnect()}>Log
                                     Out</MDBDropdownItem>
-                                <MDBDropdownItem href='#!'>My Account</MDBDropdownItem>
+                                <MDBDropdownItem href='#!' disabled>My Account</MDBDropdownItem>
                             </MDBDropdownMenu>
                         </MDBDropdown>
                     </MDBNavbarNav>

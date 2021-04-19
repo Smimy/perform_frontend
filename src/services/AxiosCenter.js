@@ -65,6 +65,13 @@ const AxiosCenter = {
         })
     },
 
+    deleteWorkoutInCascade(id, idExercises, idSeries) {
+        return ApiBackEnd({
+            method: "delete",
+            url: `"/wrapperworkout/workout/${id}/exercices/${idExercises}/series/${idSeries}"`
+        })
+    },
+
     deleteExercise(id) {
         return ApiBackEnd({
             method: "delete",
@@ -76,6 +83,16 @@ const AxiosCenter = {
         return ApiBackEnd({
             method: "delete",
             url: `/series/${id}`,
+        })
+    },
+
+    // PUT
+
+    updateWorkout(values) {
+        return ApiBackEnd({
+            method: "put",
+            url: `/workouts`,
+            data: values,
         })
     }
 };
