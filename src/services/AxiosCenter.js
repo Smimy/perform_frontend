@@ -1,5 +1,10 @@
 import ApiBackEnd from "./../config/ApiBackEnd";
 
+/**
+ * @author Schrotzenberger Jérémy
+ *
+ * AxiosCenter is used to group all requests to the API.
+ */
 const AxiosCenter = {
     authenticate(values) {
         return ApiBackEnd({

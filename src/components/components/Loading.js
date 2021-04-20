@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {MDBAlert} from "mdbreact";
 import {useStateIfMounted} from "use-state-if-mounted";
 
@@ -35,7 +35,7 @@ const Loading = () => {
     useEffect(() => {
         setTimeout(function () {
             setOutOfTime(true)
-        }, 20000);
+        }, 15000);
     });
 
     return (

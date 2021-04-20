@@ -6,15 +6,28 @@ import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
+import {BrowserRouter as Router} from 'react-router-dom';
+import {createBrowserHistory} from 'history';
+import {ToastContainer} from "react-toastify";
+
 const customHistory = createBrowserHistory();
 
 ReactDOM.render(
-  <Router history={customHistory}>
-    <App />
-  </Router>,
-  document.getElementById('root')
+    <Router history={customHistory}>
+        <ToastContainer
+            position="bottom-right"
+            autoClose={2000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss={false}
+            draggable
+            pauseOnHover
+        />
+        <App/>
+    </Router>,
+    document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change

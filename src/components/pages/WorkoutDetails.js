@@ -6,6 +6,9 @@ import {ErrorMessage, Field, Form, Formik} from 'formik';
 import AxiosCenter from "../../services/AxiosCenter";
 import UserService from "../../services/UserService";
 import moment from "moment";
+import NotificationService from "../../services/NotificationService";
+
+const entityName = "Séance";
 
 const WorkoutSchema = Yup.object().shape({
     name: Yup.string().required("Veuillez renseigner un nom de séance"),
@@ -120,7 +123,7 @@ class WorkoutDetails extends React.Component {
         const exerciseType = exerciseTypesList.find(exerciseType => exerciseType.id === wrapperExerciseList[index].exerciseTypeId);
         wrapperExerciseList[index].name = exerciseType.name;
         console.log(wrapperExerciseList[index].name)
-        this.setState( {
+        this.setState({
             wrapperExerciseList
         })
     }
@@ -161,22 +164,35 @@ class WorkoutDetails extends React.Component {
 
     deleteWorkout(id) {
         if (id !== null) {
-            AxiosCenter.deleteWorkout(id).then(() => {
+            AxiosCenter.deleteWorkout(id).then((response) => {
+                NotificationService.successDeletion(entityName);
                 this.props.history.push("/");
-            })
-        } else
+            }).catch((error) => {
+                console.log(error);
+                NotificationService.failedDeletion(entityName);
+            });
+        } else {
             this.props.history.push("/");
+        }
     }
 
     submit = (values) => {
         if (values.id === null) {
             AxiosCenter.createWorkout(values).then(() => {
+                NotificationService.successRegistration(entityName);
                 this.props.history.push("/");
+            }).catch((error) => {
+                console.log(error);
+                NotificationService.failedRegistration(entityName);
             });
         } else {
             AxiosCenter.updateWorkout(values).then(() => {
+                NotificationService.successModification(entityName);
                 this.props.history.push("/");
-            })
+            }).catch((error) => {
+                console.log(error);
+                NotificationService.failedModification(entityName);
+            });
         }
 
     }
