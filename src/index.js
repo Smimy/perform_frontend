@@ -23,7 +23,7 @@ ReactDOM.render(
             rtl={false}
             pauseOnFocusLoss={false}
             draggable
-            pauseOnHover
+            pauseOnHover={false}
         />
         <App/>
     </Router>,

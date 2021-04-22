@@ -4,7 +4,7 @@ import Loading from "../components/Loading";
 import {MDBBtn, MDBTable, MDBTableBody, MDBTableHead} from "mdbreact";
 import AxiosCenter from "../../services/AxiosCenter";
 import UserService from "../../services/UserService";
-import { withRouter } from "react-router-dom";
+import {withRouter} from "react-router-dom";
 
 class TableWorkouts extends React.Component {
 
@@ -12,12 +12,12 @@ class TableWorkouts extends React.Component {
         super(props);
         this.state = {
             loaded: false,
-            workoutList : []
+            workoutList: []
         };
     }
 
     componentDidMount() {
-        AxiosCenter.getWorkoutsByUserId(UserService.getUserId()).then((response) =>{
+        AxiosCenter.getWorkoutsByUserId(UserService.getUserId()).then((response) => {
             const workoutList = response.data;
             this.setState({
                 workoutList,
@@ -49,13 +49,16 @@ class TableWorkouts extends React.Component {
                                     <tr key={index}>
                                         <td>{new Date(workout.date).toLocaleDateString("fr-FR")}</td>
                                         <td>{workout.name}</td>
-                                        <td><MDBBtn rounded size="sm" color="red" onClick={() => this.showWorkout(workout.id)}>VOIR</MDBBtn></td>
+                                        <td><MDBBtn rounded size="sm" color="red"
+                                                    onClick={() => this.showWorkout(workout.id)}>VOIR</MDBBtn></td>
                                     </tr>
                                 )
                             )}
                         </MDBTableBody>
                     ) : (
-                        <MDBTableBody><tr><td>Pas de séance enregistrée</td></tr></MDBTableBody>
+                        <MDBTableBody>
+                            Pas de séance enregistrée
+                        </MDBTableBody>
                     )}
                 </MDBTable>
                 <div className="addBtn">

@@ -7,6 +7,7 @@ import AxiosCenter from "../../services/AxiosCenter";
 import UserService from "../../services/UserService";
 import moment from "moment";
 import NotificationService from "../../services/NotificationService";
+import ConfirmationModal from "../components/ConfirmationModal";
 
 const entityName = "Séance";
 
@@ -51,6 +52,39 @@ const ComponentDate = ({field, ...props}) => (
 const ComponentError = (props) => (
     <div className="text-danger">{props.children}</div>
 );
+
+const DeletionModal = (props) => (
+    <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Suppression de séance</h5>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-mdb-dismiss="modal"
+                        aria-label="Close"
+                    ></button>
+                </div>
+                <div class="modal-body">...</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+                        Close
+                    </button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+);
+
 
 class WorkoutDetails extends React.Component {
 
@@ -307,14 +341,29 @@ class WorkoutDetails extends React.Component {
                             </MDBCard>
 
                             <MDBRow between around className="mt-3">
-                                <MDBBtn rounded disabled={(isSubmitting)}
-                                        type={"submit"}>Enregistrer</MDBBtn>
+                                <MDBBtn
+                                    rounded
+                                    disabled={(isSubmitting)}
+                                    type={"submit"}
+                                >Enregistrer
+                                </MDBBtn>
 
-                                <MDBBtn rounded color={"red"} disabled={(this.state.newWorkout || isSubmitting)}
-                                        onClick={() => this.deleteWorkout(this.state.wrapperWorkout.id)}>Supprimer</MDBBtn>
+                                <ConfirmationModal
+                                    title={"Confirmation de suppression" }
+                                    text={"Etes-vous sûr(e) de vouloir supprimer " + (this.state.wrapperWorkout.name) + " ?"}
+                                    name="SUPPRIMER"
+                                    rounded={true}
+                                    color="red"
+                                    action={() => this.deleteWorkout(this.state.wrapperWorkout.id)}
+                                    disabled={(this.state.newWorkout || isSubmitting)}
+                                />
 
-                                <MDBBtn rounded disabled={(isSubmitting)}
-                                        onClick={() => this.props.history.push("/")}>Retour</MDBBtn>
+                                <MDBBtn
+                                    rounded
+                                    disabled={(isSubmitting)}
+                                    onClick={() => this.props.history.push("/")}
+                                >Retour
+                                </MDBBtn>
                             </MDBRow>
                         </Form>
                     )}
