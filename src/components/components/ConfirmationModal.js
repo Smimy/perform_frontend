@@ -17,7 +17,7 @@ import {MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBIcon}
  */
 
 const ConfirmationModal =
-    ({title,action, name, color, rounded, size , text, icon, disabled }) => {
+    ({title,action, name, color, rounded, size , text, disabled }) => {
         const [isOpen, setIsOpen] = useState(false);
 
         return (
@@ -28,7 +28,6 @@ const ConfirmationModal =
                         size={size}
                         disabled={disabled}>
                     {name}
-                    <MDBIcon icon={icon}/>
                 </MDBBtn>
 
                 <MDBModal isOpen={isOpen}>

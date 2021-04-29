@@ -10,7 +10,7 @@ const AxiosCenter = {
         return ApiBackEnd({
             method: "post",
             url: "/authenticate",
-            data: values,
+            data: values
         });
     },
 
@@ -19,7 +19,7 @@ const AxiosCenter = {
     getCurrentUser() {
         return ApiBackEnd({
             method: "get",
-            url: "/account",
+            url: "/account"
         });
     },
 
@@ -47,7 +47,7 @@ const AxiosCenter = {
     getWrapperWorkoutById(workoutId) {
         return ApiBackEnd({
             method: "get",
-            url: `/wrapperworkout/workout/${workoutId}`,
+            url: `/wrapperworkout/workout/${workoutId}`
         })
     },
 
@@ -57,7 +57,15 @@ const AxiosCenter = {
         return ApiBackEnd({
             method: "post",
             url: "/workouts",
-            data : values
+            data: values
+        })
+    },
+
+    createExercise(values) {
+        return ApiBackEnd({
+            method: "post",
+            url: "/exercises",
+            data: values
         })
     },
 
@@ -66,7 +74,7 @@ const AxiosCenter = {
     deleteWorkout(id) {
         return ApiBackEnd({
             method: "delete",
-            url: `/workouts/${id}`,
+            url: `/workouts/${id}`
         })
     },
 
@@ -80,14 +88,14 @@ const AxiosCenter = {
     deleteExercise(id) {
         return ApiBackEnd({
             method: "delete",
-            url: `/exercises/${id}`,
+            url: `/exercises/${id}`
         })
     },
 
     deleteSerie(id) {
         return ApiBackEnd({
             method: "delete",
-            url: `/series/${id}`,
+            url: `/series/${id}`
         })
     },
 
@@ -97,7 +105,15 @@ const AxiosCenter = {
         return ApiBackEnd({
             method: "put",
             url: `/workouts`,
-            data: values,
+            data: values
+        })
+    },
+
+    updateExercise(values) {
+        return ApiBackEnd({
+            method: "put",
+            url: "/exercises",
+            data: values
         })
     }
 };

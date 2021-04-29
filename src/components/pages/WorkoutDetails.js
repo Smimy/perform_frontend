@@ -53,39 +53,6 @@ const ComponentError = (props) => (
     <div className="text-danger">{props.children}</div>
 );
 
-const DeletionModal = (props) => (
-    <div
-        class="modal fade"
-        id="exampleModal"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-    >
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Suppression de séance</h5>
-                    <button
-                        type="button"
-                        class="btn-close"
-                        data-mdb-dismiss="modal"
-                        aria-label="Close"
-                    ></button>
-                </div>
-                <div class="modal-body">...</div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
-                        Close
-                    </button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-);
-
-
 class WorkoutDetails extends React.Component {
 
     constructor(props) {
@@ -96,6 +63,7 @@ class WorkoutDetails extends React.Component {
             wrapperWorkout: null,
             wrapperExerciseList: [],
             exercisesIdToRemove: [],
+            exercisesToAdd: [],
             newWorkout: true,
             loaded: false
         };
@@ -174,12 +142,18 @@ class WorkoutDetails extends React.Component {
             name: "Nouvel exercice", //this.state.exerciseTypesList[0].name,
             number: newNumber,
             comment: "",
-            exerciseTypeId: this.state.exerciseTypesList[0].id
+            exerciseTypeId: this.state.exerciseTypesList[0].id,
+            workoutId: this.state.wrapperWorkout.id
         }
         const wrapperExerciseList = this.state.wrapperExerciseList;
         wrapperExerciseList.push(exercise);
+
+        const exercisesToAdd = this.state.exercisesToAdd;
+        exercisesToAdd.push(exercise);
+
         this.setState({
-            wrapperExerciseList
+            wrapperExerciseList,
+            exercisesToAdd
         })
     }
 
@@ -198,7 +172,7 @@ class WorkoutDetails extends React.Component {
 
     deleteWorkout(id) {
         if (id !== null) {
-            AxiosCenter.deleteWorkout(id).then((response) => {
+            AxiosCenter.deleteWorkout(id).then(() => {
                 NotificationService.successDeletion(entityName);
                 this.props.history.push("/");
             }).catch((error) => {
@@ -212,7 +186,12 @@ class WorkoutDetails extends React.Component {
 
     submit = (values) => {
         if (values.id === null) {
-            AxiosCenter.createWorkout(values).then(() => {
+            AxiosCenter.createWorkout(values).then((response) => {
+                const workoutId = response.data.id;
+                this.state.exercisesToAdd.forEach((exercise) => {
+                    exercise.workoutId = workoutId;
+                    AxiosCenter.createExercise(exercise)
+                });
                 NotificationService.successRegistration(entityName);
                 this.props.history.push("/");
             }).catch((error) => {
@@ -220,6 +199,22 @@ class WorkoutDetails extends React.Component {
                 NotificationService.failedRegistration(entityName);
             });
         } else {
+            this.state.exercisesIdToRemove.forEach(id => AxiosCenter.deleteExercise(id));
+            this.state.wrapperExerciseList.forEach((exercise) => {
+                if (exercise.id !== null) {
+                    const exerciseToUpdate = {
+                        id: exercise.id,
+                        name: exercise.name, //this.state.exerciseTypesList[0].name,
+                        number: exercise.number,
+                        comment: exercise.comment,
+                        exerciseTypeId: exercise.exerciseTypeId,
+                        workoutId: this.state.wrapperWorkout.id
+                    }
+                    AxiosCenter.updateExercise(exerciseToUpdate);
+                }
+            });
+            this.state.exercisesToAdd.forEach(exercise => AxiosCenter.createExercise(exercise));
+
             AxiosCenter.updateWorkout(values).then(() => {
                 NotificationService.successModification(entityName);
                 this.props.history.push("/");
@@ -349,7 +344,7 @@ class WorkoutDetails extends React.Component {
                                 </MDBBtn>
 
                                 <ConfirmationModal
-                                    title={"Confirmation de suppression" }
+                                    title={"Confirmation de suppression"}
                                     text={"Etes-vous sûr(e) de vouloir supprimer " + (this.state.wrapperWorkout.name) + " ?"}
                                     name="SUPPRIMER"
                                     rounded={true}
