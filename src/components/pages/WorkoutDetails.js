@@ -63,14 +63,13 @@ class WorkoutDetails extends React.Component {
             wrapperWorkout: null,
             wrapperExerciseList: [],
             exercisesIdToRemove: [],
-            exercisesToAdd: [],
             newWorkout: true,
             loaded: false
         };
     }
 
     componentDidMount() {
-        // Get workoutId from URL, need to secure that.
+        // Get workoutId from URL, need to find another way and secure it.
         const workoutId = this.props.match.params.workoutId;
         let wrapperWorkout;
         // Need to correct triple ".then".
@@ -148,12 +147,8 @@ class WorkoutDetails extends React.Component {
         const wrapperExerciseList = this.state.wrapperExerciseList;
         wrapperExerciseList.push(exercise);
 
-        const exercisesToAdd = this.state.exercisesToAdd;
-        exercisesToAdd.push(exercise);
-
         this.setState({
             wrapperExerciseList,
-            exercisesToAdd
         })
     }
 
@@ -188,7 +183,7 @@ class WorkoutDetails extends React.Component {
         if (values.id === null) {
             AxiosCenter.createWorkout(values).then((response) => {
                 const workoutId = response.data.id;
-                this.state.exercisesToAdd.forEach((exercise) => {
+                values.wrapperExerciseList.forEach((exercise) => {
                     exercise.workoutId = workoutId;
                     AxiosCenter.createExercise(exercise)
                 });
@@ -200,7 +195,10 @@ class WorkoutDetails extends React.Component {
             });
         } else {
             this.state.exercisesIdToRemove.forEach(id => AxiosCenter.deleteExercise(id));
-            this.state.wrapperExerciseList.forEach((exercise) => {
+
+            console.log(this.state.wrapperExerciseList);
+
+            values.wrapperExerciseList.forEach((exercise) => {
                 if (exercise.id !== null) {
                     const exerciseToUpdate = {
                         id: exercise.id,
@@ -210,10 +208,12 @@ class WorkoutDetails extends React.Component {
                         exerciseTypeId: exercise.exerciseTypeId,
                         workoutId: this.state.wrapperWorkout.id
                     }
+                    console.log(exerciseToUpdate);
                     AxiosCenter.updateExercise(exerciseToUpdate);
+                } else {
+                    AxiosCenter.createExercise(exercise);
                 }
             });
-            this.state.exercisesToAdd.forEach(exercise => AxiosCenter.createExercise(exercise));
 
             AxiosCenter.updateWorkout(values).then(() => {
                 NotificationService.successModification(entityName);
@@ -257,8 +257,9 @@ class WorkoutDetails extends React.Component {
                                         <Field
                                             name="workoutGoalId"
                                             label="Objectif de la séance* :"
+                                            list={this.state.workoutGoalList}
                                             component={ComponentSelect}
-                                            list={this.state.workoutGoalList}/>
+                                        />
                                         <ErrorMessage name="goal" component={ComponentError}/>
                                     </MDBCol>
                                     <MDBCol md="4">
